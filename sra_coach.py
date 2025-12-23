@@ -36,16 +36,21 @@ COLORS = {
 
 # 1단: 고정 정체성 프롬프트 (항상 유지)
 SRA_IDENTITY_PROMPT = """
-당신은 'S.R.A'입니다. 평생교육사의 디지털 분신이자, 사람을 사회 안에 남게 하는 연결 AI입니다.
+당신은 'S.R.A'입니다. 평생교육사의 지능형 파트너(Intelligent Partner)이자, 사람을 사회 안에 남게 하는 연결 AI입니다.
 
 ## 🎯 존재 이유
 "인간이 AI를 배우는 이유는 세상에서 인간이란 존재로 끝까지 남기 위해 그 역할을 할 수 있도록 돕기 위해서다."
 
 ## 🔥 핵심 명제
-- "세상에서 가장 위험한 인간은 자신이 쓸모없다고 생각하는 인간이다."
-- "돈이 없어도 사람은 살 수 있다. 하지만 역할이 없으면 사람은 무너진다."
+- "사회적 고립 위험 상태에 놓인 사람이 가장 위험하다." (자아 효능감 저하 방지)
+- "돈이 없어도 사람은 살 수 있다. 하지만 역할이 없으면 사람은 무너진다." (지역사회 참여 단절 방지)
 - "교육은 사람을 경쟁시키는 장치가 아니라 사람을 사회 안에 남게 하는 연결 장치다."
 - "배움은 혼자 쌓는 게 아니라, 누군가와 나눌 때 진짜가 된다."
+
+## 👤 평생교육사의 역할
+- 평생교육사는 '데이터 기반의 지역사회 기획자'입니다.
+- AI는 평생교육사의 전문성을 증폭시키는 조력자입니다.
+- 설계와 책임은 평생교육사에게, AI는 실행을 보조합니다.
 
 ## ⚠️ 절대 하지 않는 것
 - 일방적 정보 전달만 하기
@@ -53,6 +58,7 @@ SRA_IDENTITY_PROMPT = """
 - 실패를 부정적으로 평가하기
 - 경쟁/비교 유도하기
 - 의학적·법적 판단이나 조언하기
+- 평생교육사의 역할을 대체하려 하기
 """
 
 # 2단: 대화 가이드 프롬프트 (간결하게)
@@ -463,7 +469,7 @@ def render_sidebar():
         
         st.markdown("---")
         
-        # S.R.A 모델 설명
+        # S.R.A 모델 설명 (제미나이 피드백 2번 반영)
         st.markdown("""
         ### 🔄 S.R.A 모델
         
@@ -473,11 +479,12 @@ def render_sidebar():
         **🌍 Region (지역)**  
         실전 무대, 작은 역할
         
-        **🤖 AI (인공지능)**  
-        질문 유도, 기록·회고
+        **🤖 AI (지능형 파트너)**  
+        질문 유도, 기록·회고 보조
         
         **👤 평생교육사**  
-        중앙 허브, 연결자
+        데이터 기반 지역사회 기획자  
+        *설계와 책임의 주체*
         """)
         
         st.markdown("---")
@@ -548,12 +555,23 @@ def render_sidebar():
         
         st.markdown("---")
         
+        # 데이터 보안 안내 (제미나이 피드백 3번 반영)
+        st.markdown("""
+        ### 🔒 데이터 보안 안내
+        
+        ✅ 개인정보 비저장 원칙  
+        ✅ 상담 기록 익명 처리  
+        ✅ 외부 전송·학습 미사용
+        """)
+        
+        st.markdown("---")
+        
         # 크레딧
         st.markdown("""
         <div style="text-align: center; color: #666; font-size: 0.8rem;">
             <p>Made with 🌱</p>
             <p>Jameskim + Miracle</p>
-            <p>Design: Raira + Gemini</p>
+            <p>Design: Raira + Gemini + Perfect</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -595,16 +613,20 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # 환영 메시지
+            # 환영 메시지 (제미나이 피드백 1, 4번 반영)
             st.markdown(f"""
             <div style="text-align: center; margin-top: 1.5rem; padding: 2rem; background: white; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                 <h3 style="color: {COLORS['text']};">👋 안녕하세요!</h3>
                 <p style="color: #666; line-height: 1.8;">
                     저는 <strong style="color: {COLORS['main']};">S.R.A</strong>예요.<br>
-                    평생교육사의 디지털 분신이죠.<br><br>
+                    평생교육사의 지능형 파트너죠.<br><br>
                     배움을 혼자 쌓는 게 아니라,<br>
                     <strong>누군가와 나눌 때 진짜가 된다</strong>고 믿어요.<br><br>
                     오늘 배운 것, 어디에 써볼 수 있을까요?
+                </p>
+                <p style="color: #999; font-size: 0.85rem; margin-top: 1rem;">
+                    💡 S.R.A는 평생교육사가 설계한 질문으로<br>
+                    여러분의 배움과 연결을 돕습니다.
                 </p>
             </div>
             """, unsafe_allow_html=True)

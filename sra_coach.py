@@ -327,7 +327,7 @@ def get_groq_response(messages):
         full_messages.extend(messages)
         
         response = client.chat.completions.create(
-            model="llama-3.1-70b-versatile",
+            model="llama-3.3-70b-versatile",
             messages=full_messages,
             temperature=0.8,
             max_tokens=1024,

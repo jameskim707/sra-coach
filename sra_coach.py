@@ -21,7 +21,7 @@ from datetime import datetime
 import time
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 🎨 컬러 & 스타일 설정 (제미나이 피드백 - 수묵화 + 행운)
+# 🎨 컬러 & 스타일 설정
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 COLORS = {
     "main": "#2E7D32",      # 초록 (메인 - 성장)
@@ -33,12 +33,6 @@ COLORS = {
     "text": "#2C2C2C",
     "school": "#1976D2",    # 학교 - 파랑
     "region": "#FF8F00",    # 지역 - 주황
-    # 수묵화 + 행운 컬러 (제미나이 제안)
-    "ink_light": "#F5F5F5",   # 수묵화 - 연한 먹
-    "ink_medium": "#9E9E9E",  # 수묵화 - 중간 먹
-    "ink_dark": "#424242",    # 수묵화 - 진한 먹
-    "gold": "#D4AF37",        # 행운 - 골드
-    "deep_red": "#8B0000",    # 행운 - 딥레드
     "ai": "#7B1FA2",        # AI - 보라
 }
 
@@ -266,35 +260,21 @@ def load_css():
             box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1) !important;
         }}
         
-        /* 사이드바 스타일 (수묵화 느낌 추가) */
+        /* 사이드바 스타일 */
         section[data-testid="stSidebar"] {{
-            background: linear-gradient(180deg, {COLORS['dark']} 0%, {COLORS['ink_dark']} 100%);
+            background: linear-gradient(180deg, {COLORS['dark']} 0%, #0D3311 100%);
         }}
         
         section[data-testid="stSidebar"] .stMarkdown {{
             color: white;
         }}
         
-        /* 버튼 호버 시 먹물 번지는 효과 */
-        .stButton > button:hover {{
-            background: linear-gradient(135deg, {COLORS['main']} 0%, {COLORS['ink_dark']} 100%) !important;
-            box-shadow: 0 4px 15px rgba(66, 66, 66, 0.3) !important;
-            transition: all 0.4s ease !important;
-        }}
-        
-        /* 푸터 (수묵화 + 골드 포인트) */
+        /* 푸터 */
         .sra-footer {{
             text-align: center;
             padding: 2rem;
-            color: {COLORS['ink_medium']};
+            color: #999;
             font-size: 0.9rem;
-            border-top: 1px solid {COLORS['ink_light']};
-            background: linear-gradient(180deg, white 0%, {COLORS['ink_light']} 100%);
-        }}
-        
-        .sra-footer p:first-child {{
-            color: {COLORS['gold']};
-            font-weight: 600;
         }}
         
         /* Streamlit 기본 요소 숨기기 */

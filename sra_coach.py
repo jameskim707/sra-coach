@@ -301,6 +301,67 @@ def init_session_state():
         st.session_state.current_mode = "home"
     if "conversation_started" not in st.session_state:
         st.session_state.conversation_started = False
+    # 사례 보기 모드 (라이라 피드백 반영)
+    if "show_cases" not in st.session_state:
+        st.session_state.show_cases = False
+    if "selected_case" not in st.session_state:
+        st.session_state.selected_case = None
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 📚 사례 데이터 (라이라 피드백 반영)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FAILURE_CASES = [
+    {
+        "id": 1,
+        "icon": "🔗",
+        "title": "역할 연결 부재",
+        "summary": "학습이 학교 밖으로 연결되지 않음",
+        "why_repeat": "콘텐츠는 있지만, '어디에 쓸지'가 없다",
+        "old_structure": "학교(AI학습) → 시험 → 종료 ❌",
+        "sra_structure": "학교 → 지역 역할 제안 → 실전 참여 ✅",
+        "conclusion": "S.R.A는 배운 것을 쓸 '무대'를 연결한다"
+    },
+    {
+        "id": 2,
+        "icon": "🤖",
+        "title": "인간 개입 상실",
+        "summary": "AI 단독 운영, 가이드라인 제한",
+        "why_repeat": "기술만 있고, '사람'이 없다",
+        "old_structure": "AI 단독 → 반복 대화 → 지루함 ❌",
+        "sra_structure": "평생교육사 설계 → AI 보조 → 따뜻한 연결 ✅",
+        "conclusion": "S.R.A는 '인간 허브'가 설계하고 책임진다"
+    },
+    {
+        "id": 3,
+        "icon": "📊",
+        "title": "평가 시험 편향",
+        "summary": "오답 데이터만 수집, 점수 KPI",
+        "why_repeat": "성장이 아니라 '점수'만 본다",
+        "old_structure": "문제풀이 → 오답 분석 → 시험 반복 ❌",
+        "sra_structure": "배움 → 역할 수행 → 성장 기록 ✅",
+        "conclusion": "S.R.A는 '역할 성과'를 측정한다"
+    },
+    {
+        "id": 4,
+        "icon": "👨‍🏫",
+        "title": "교사 비참여",
+        "summary": "연수·지원 부족, 교사 배제",
+        "why_repeat": "기술은 주지만, '쓰는 법'은 안 알려준다",
+        "old_structure": "AI 도입 → 교사 훈련 無 → 방치 ❌",
+        "sra_structure": "평생교육사 중심 → AI 도구화 → 협업 ✅",
+        "conclusion": "S.R.A는 교육자가 '주인'이다"
+    },
+    {
+        "id": 5,
+        "icon": "💔",
+        "title": "지속성 붕괴",
+        "summary": "초기 펀딩 후 네트워크 해체",
+        "why_repeat": "시작은 하지만, '순환'이 없다",
+        "old_structure": "프로젝트 시작 → 펀딩 종료 → 중단 ❌",
+        "sra_structure": "학습 → 역할 → 기록 → 다음 학습 순환 ✅",
+        "conclusion": "S.R.A는 '순환 구조'로 지속된다"
+    }
+]
 
 def get_current_messages():
     """현재 모드의 메시지 리스트 반환"""
@@ -367,6 +428,88 @@ def render_header():
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+def render_cases():
+    """사례 카드 렌더링 (라이라 피드백 반영)"""
+    st.markdown("### 📚 왜 S.R.A인가?")
+    st.markdown("*기존 에듀테크의 5대 실패 패턴과 S.R.A의 해결 방식*")
+    st.markdown("")
+    
+    # 카드 2열 레이아웃
+    for i in range(0, len(FAILURE_CASES), 2):
+        col1, col2 = st.columns(2)
+        
+        for j, col in enumerate([col1, col2]):
+            idx = i + j
+            if idx < len(FAILURE_CASES):
+                case = FAILURE_CASES[idx]
+                with col:
+                    with st.expander(f"{case['icon']} **{case['title']}**", expanded=False):
+                        st.markdown(f"**왜 반복되는가?**")
+                        st.markdown(f"> {case['why_repeat']}")
+                        st.markdown("")
+                        st.markdown("**기존 구조:**")
+                        st.error(case['old_structure'])
+                        st.markdown("**S.R.A 구조:**")
+                        st.success(case['sra_structure'])
+                        st.markdown("")
+                        st.info(f"💡 {case['conclusion']}")
+    
+    st.markdown("---")
+    
+    # S.R.A vs 기존 비교 요약
+    st.markdown("### 🔄 기존 vs S.R.A 한눈에 보기")
+    
+    compare_col1, compare_col2 = st.columns(2)
+    
+    with compare_col1:
+        st.markdown("#### ❌ 기존 에듀테크")
+        st.markdown("""
+        ```
+        학교(AI학습)
+            ↓
+        개인(시험)
+            ↓
+        종료 ❌
+        ```
+        - 학습 → 평가 → 끝
+        - 피드백 루프 없음
+        - 지역 연결 없음
+        """)
+    
+    with compare_col2:
+        st.markdown("#### ✅ S.R.A")
+        st.markdown("""
+        ```
+        학교
+            ↓
+        인간허브(평생교육사)
+            ↓
+        지역역할
+            ↓
+        AI기록
+            ↓
+        순환 ✅
+        ```
+        - 학습 → 역할 → 참여 → 기록
+        - 피드백 루프 있음
+        - 지역 연결 있음
+        """)
+    
+    st.markdown("---")
+    st.markdown("""
+    <div style="text-align: center; padding: 1rem; background: linear-gradient(135deg, #E8F5E9 0%, #FFF8E1 100%); border-radius: 12px;">
+        <p style="color: #1B5E20; font-weight: 600; font-size: 1.1rem; margin: 0;">
+            "국내외 에듀테크 중 학습–지역 역할–인간 허브–AI 기록을<br>
+            단일 구조로 동시에 해결한 사례는 없다."
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("")
+    if st.button("🏠 홈으로 돌아가기", use_container_width=True):
+        st.session_state.show_cases = False
+        st.rerun()
 
 def render_function_cards():
     """5가지 기능 카드 렌더링"""
@@ -515,10 +658,17 @@ def render_sidebar():
         if st.button("🏠 처음으로", use_container_width=True):
             st.session_state.current_mode = "home"
             st.session_state.conversation_started = False
+            st.session_state.show_cases = False
             st.rerun()
         
         if st.button("🗑️ 대화 초기화", use_container_width=True):
             clear_current_messages()
+            st.rerun()
+        
+        # 사례 보기 버튼 (라이라 피드백 반영)
+        if st.button("📚 사례로 이해하기", use_container_width=True):
+            st.session_state.show_cases = True
+            st.session_state.conversation_started = False
             st.rerun()
         
         st.markdown("---")
@@ -605,7 +755,11 @@ def main():
     with col2:
         render_header()
         
-        if not st.session_state.conversation_started:
+        # 화면 분기 (라이라 피드백 반영 - 사례 화면 추가)
+        if st.session_state.show_cases:
+            # 사례 화면
+            render_cases()
+        elif not st.session_state.conversation_started:
             # 홈 화면 - 기능 카드
             render_function_cards()
             
